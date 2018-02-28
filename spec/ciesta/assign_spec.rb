@@ -30,7 +30,7 @@ RSpec.describe 'assign' do
     context 'with invalid params' do
       let(:params) { Hash[bar: 42] }
 
-      specify { expect { assigning }.not_to change { form.attributes } }
+      specify { expect { assigning }.not_to change { form.foo } }
     end
 
     context 'with valid params' do
