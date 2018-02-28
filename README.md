@@ -44,7 +44,7 @@ User = Struct.new(:name, :age)
 class Form < Ciesta::Form
   field :name
   field :age
-	
+
   validate do
     required(:name).filled
     required(:age).filled(gt?: 18)
@@ -72,7 +72,7 @@ end
 
 form.assign!(foo: 1, bar: 2) # => raises Ciesta::FieldNotDefined
 ...
-form.assign(foo: 1, bar: 2) 
+form.assign(foo: 1, bar: 2)
 form.foo # => 1
 ```
 
@@ -90,7 +90,7 @@ form.sync  # => returns nil
 
 ### Types
 
-You can provide the type of each field for ciercing or checking one. All types provided by (dry-types)[https://github.com/dry-rb/dry-types] but in gem's namespace.
+You can provide the type of each field for ciercing or checking one. All types provided by [dry-types](https://github.com/dry-rb/dry-types) but in gem's namespace.
 
 ```ruby
 class Form < Ciesta::Form
