@@ -1,8 +1,8 @@
 # Ciesta
 
-[![Gem Version](https://badge.fury.io/rb/ciesta.svg)](https://badge.fury.io/rb/ciesta)
-[![Coverage Status](https://coveralls.io/repos/github/nulldef/ciesta/badge.svg?branch=master&rand=123)](https://coveralls.io/github/nulldef/ciesta?branch=master)
 [![Build Status](https://travis-ci.org/nulldef/ciesta.svg?branch=master)](https://travis-ci.org/nulldef/ciesta)
+[![Coverage Status](https://coveralls.io/repos/github/nulldef/ciesta/badge.svg?branch=master&rand=123)](https://coveralls.io/github/nulldef/ciesta?branch=master)
+[![Gem Version](https://badge.fury.io/rb/ciesta.svg)](https://badge.fury.io/rb/ciesta)
 
 Create simple form objects
 
