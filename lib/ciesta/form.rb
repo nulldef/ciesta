@@ -27,13 +27,14 @@ module Ciesta
     end
 
     def sync!
-      raise Ciesta::Errors::NotValid, "Form is not valid" unless valid?
+      raise Ciesta::NotValid, "Form is not valid" unless errors.empty?
 
       self.class.fields.each do |name, field|
         object.send("#{name}=", field.value)
       end
 
       yield(object) if block_given?
+      true
     end
 
     def sync
