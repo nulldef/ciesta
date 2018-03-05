@@ -58,7 +58,7 @@ RSpec.describe Ciesta::Form do
     context 'when params are invalid' do
       let(:attributes) { Hash[name: 'Neo', age: 5] }
 
-      specify { expect(form.sync).to be_nil }
+      specify { expect(form.sync).to be_truthy }
     end
   end
 end
