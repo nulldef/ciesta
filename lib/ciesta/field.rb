@@ -2,26 +2,39 @@ module Ciesta
   class Field
     DEFAULT_TYPE = Ciesta::Types::Any
 
-    attr_accessor :name, :type
+    attr_reader :name, :type
 
     def initialize(name, options)
-      self.name = name.to_sym
-      self.type = options.delete(:type) || DEFAULT_TYPE
-      self.value = options.delete(:default)
-    end
-
-    def value
-      current_value
+      @name = name.to_sym
+      @type = options.delete(:type) || DEFAULT_TYPE
+      @default = options.delete(:default)
+      @was_set = false
     end
 
     def value=(val)
-      self.current_value = type[val]
+      @value = type[val]
+      @was_set = true
     rescue Dry::Types::ConstraintError
-      raise ViolatesConstraints, "#{current_value} is not a #{type.name}"
+      raise Ciesta::ViolatesConstraints, "#{val} is not a #{type.name}"
+    end
+
+    def value
+      return @value if @was_set
+
+      @value || default
+    end
+
+    def bind(obj)
+      @default.bind(obj) if @default
     end
 
     private
 
-    attr_accessor :current_value
+    def default
+      def_value = @default.respond_to?(:call) ? @default.call : @default
+      type[def_value]
+    rescue Dry::Types::ConstraintError
+      raise Ciesta::ViolatesConstraints, "#{def_value} is not a #{type.name}"
+    end
   end
 end
