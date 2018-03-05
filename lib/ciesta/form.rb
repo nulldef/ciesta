@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   class Form
     extend Delegator
@@ -36,7 +38,7 @@ module Ciesta
     end
 
     def sync!(&block)
-      raise Ciesta::NotValid, 'Form is not valid' unless valid?
+      raise Ciesta::NotValid, "Form is not valid" unless valid?
       syncer.sync!(&block)
     end
 

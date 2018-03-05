@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   class Field
     DEFAULT_TYPE = Ciesta::Types::Any
@@ -25,7 +27,7 @@ module Ciesta
     end
 
     def bind(obj)
-      @default.bind(obj) if @default
+      @default&.bind(obj)
     end
 
     private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   class Validator
     attr_accessor :schema, :errors

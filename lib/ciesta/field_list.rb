@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   class FieldList
     attr_reader :list
@@ -38,8 +40,8 @@ module Ciesta
       list.values.each_with_object({}) { |field, mem| mem[field.name] = field.value }
     end
 
-    def each(&block)
-      list.each { |name, field| block.call(name, field.value) }
+    def each
+      list.each { |name, field| yield(name, field.value) }
     end
   end
 end

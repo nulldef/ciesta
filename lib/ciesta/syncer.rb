@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   class Syncer
     attr_reader :obj, :fields

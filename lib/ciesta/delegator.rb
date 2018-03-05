@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ciesta
   module Delegator
     def delegate(*methods, to:)
@@ -7,7 +9,7 @@ module Ciesta
           "  if !#{to}.nil?",
           "    #{to}.#{name}(*args, &block)",
           "  end",
-          "end"
+          "end",
         ].join(";")
 
         module_eval(method_def)

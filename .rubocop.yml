@@ -1,0 +1,13 @@
+inherit_gem:
+  rubocop-config-umbrellio: lib/rubocop.rails.yml
+
+AllCops:
+  TargetRubyVersion: 2.5.0
+  Exclude:
+    - db/schema.rb
+
+Metrics/LineLength:
+  IgnoredPatterns: ['#.*']
+
+Rails/SaveBang:
+  Enabled: false
