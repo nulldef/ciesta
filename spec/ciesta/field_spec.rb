@@ -35,10 +35,15 @@ RSpec.describe Ciesta::Field do
 
     context "when default is proc" do
       let(:default) { -> { foo } }
+      let(:klass) do
+        Class.new do
+          def foo
+            10
+          end
+        end
+      end
 
-      let(:obj) { Class.new { def foo; 10; end }.new }
-
-      before { field.bind(obj) }
+      before { field.bind(klass.new) }
 
       specify { is_expected.to eq(10) }
     end

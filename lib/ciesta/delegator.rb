@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
-module Ciesta
-  module Delegator
-    def delegate(*methods, to:)
-      methods.each do |name|
-        method_def = [
-          "def #{name}(*args, &block)",
-          "  if !#{to}.nil?",
-          "    #{to}.#{name}(*args, &block)",
-          "  end",
-          "end",
-        ].join(";")
+module Ciesta::Delegator
+  def delegate(*methods, to:)
+    methods.each do |name|
+      method_def = [
+        "def #{name}(*args, &block)",
+        "  if !#{to}.nil?",
+        "    #{to}.#{name}(*args, &block)",
+        "  end",
+        "end",
+      ].join(";")
 
-        module_eval(method_def)
-      end
+      module_eval(method_def)
     end
   end
 end

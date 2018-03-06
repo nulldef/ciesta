@@ -2,9 +2,10 @@ inherit_gem:
   rubocop-config-umbrellio: lib/rubocop.rails.yml
 
 AllCops:
-  TargetRubyVersion: 2.5.0
+  TargetRubyVersion: 2.1
   Exclude:
     - db/schema.rb
+    - ciesta.gemspec
 
 Metrics/LineLength:
   IgnoredPatterns: ['#.*']

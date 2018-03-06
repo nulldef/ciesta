@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-module Ciesta
-  module Types
-    include Dry::Types.module
-  end
+module Ciesta::Types
+  include Dry::Types.module
 end
