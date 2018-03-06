@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "coveralls"
+require "simplecov"
 
 Coveralls.wear!
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
