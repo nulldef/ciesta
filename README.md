@@ -8,12 +8,17 @@ Create simple form objects
 
 Supported Ruby 2.2.0+
 
+You should keep it in mind that here uses [dry-validation](https://github.com/dry-rb/dry-validation) and [dry-types](https://github.com/dry-rb/dry-types) for validation and typification respectively.
+
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Basic usage](#basic-usage)
-  - [Assign values](#assign-values)
-  - [Syncing attributes](#syncing-attributes)
-  - [Types](#types)
+  - [Basic case](#basic-case)
+  - [Syncing](#syncing)
+  - [Validation](#validation)
+  - [Advanced declaring fields](#advanced-declaring-fields)
+    - [Types](#types)
+    - [Default value](#default-value)
+  - [Mass updating values](#mass-updating-values)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -22,7 +27,7 @@ Supported Ruby 2.2.0+
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ciesta'
+gem "ciesta"
 ```
 
 And then execute:
@@ -33,15 +38,51 @@ Or install it yourself as:
 
     $ gem install ciesta
 
+
 ## Usage
 
-### Basic usage
-
-For validation it uses [dry-validation](https://github.com/dry-rb/dry-validation) under the hood. You can use all features of validation provided there.
+### Basic case
+Just imageine that we have a user object with `name` and `age` attributes:
 
 ```ruby
 User = Struct.new(:name, :age)
 
+user = User.new(nil, nil)
+```
+And we need to save new values and update and we will use simple form object:
+
+```ruby
+class Form < Ciesta::Form
+  field :name
+  field :age
+end
+
+form = Form.new(user)
+```
+
+```ruby
+form.name = "John"
+form.age = 33
+form.sync!
+
+user.name # => "John"
+user.age  # => 33
+```
+
+### Syncing
+You can pass a block to sync method to do some stuff with object after syncing.
+
+```ruby
+form.sync! do |user|
+  user.make_happy!
+end
+```
+Both methods `sync` and `sync!` are provides this DSL.
+
+### Validation
+There we want to validate incoming values. We should use `validate` method:
+
+```ruby
 class Form < Ciesta::Form
   field :name
   field :age
@@ -51,57 +92,74 @@ class Form < Ciesta::Form
     required(:age).filled(gt?: 18)
   end
 end
-```
 
-And use it
-
-```ruby
-user = User.new("John", nil)
 form = Form.new(user)
-form.valid?(age: 10) # => false
-form.valid?(age: 20) # => true
 ```
 
-### Assign values
-
-You can assign values to form with two methods `assign!` and `assign`
+Trying to sync with invalid form will raise `Ciesta::FormNotValid` error.
 
 ```ruby
-class Form < Ciesta::Form
-  field :bar
-end
-
-form.assign!(foo: 1, bar: 2) # => raises Ciesta::FieldNotDefined
+form.age = 15
+form.valid? # => false
+form.sync!  # => raises Ciesta::FormNotValid
+form.errors # => { age: ["must be greater than 18"] }
 ...
-form.assign(foo: 1, bar: 2)
-form.foo # => 1
+form.age = 42
+form.sync!  # => true
+
+user.age    # => 42
 ```
 
-You can pass attributes directly to `valid?` method. In this case `assing` method will be used.
+### Advanced declaring fields
 
-### Syncing attributes
-
-You can use methods `sync` and `sync!` for mapping form values to the object. The difference is only that the second one will raise error if form is invalid.
+#### Types
+You can define a type of the field using `Ciesta::Types` namespace.
 
 ```ruby
-form.valid?(age: 10)
-form.sync! # => raises Ciesta::ObjectNotValid
-form.sync  # => returns nil
+field :age, type: Ciesta::Types::Coercible::Int
+...
+form.age = "42"
+form.age # => 42
+```
+Default type is `Ciesta::Types::Any`.
+
+#### Default value
+If your attribute wasn't set yet but value already is in use, you can set `default` option to avoid some kind of exceptions.
+
+```ruby
+field :age, default: 42
+...
+form.age # => 42
 ```
 
-### Types
-
-You can provide the type of each field for ciercing or checking one. All types provided by [dry-types](https://github.com/dry-rb/dry-types) but in gem's namespace.
+Default value can also be a `Proc`, wich will executed in object context.
 
 ```ruby
-class Form < Ciesta::Form
-  field :foo, type: Ciesta::Types::Coercible::String
+class User
+  def default_age
+    42
+  end
 end
-
-# ...
-form.assign(foo: 1) # => true
-form.foo            # => "1"
 ```
+
+```ruby
+field :age, default: -> { default_age }
+...
+form.age # => 42
+```
+
+## Mass updating values
+There are exists two methods for mass update form fields: `assign` and `assign!`.
+
+```ruby
+form.assign!(name: "Neo", age: 30)
+form.sync!
+...
+user.name # => "Neo"
+user.age  # => 30
+```
+
+`assign!` method will raise `Ciesta::FieldNotDefined` error if one of passed attribute is not exists in the form.
 
 ## Contributing
 

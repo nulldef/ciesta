@@ -4,8 +4,10 @@
 #
 # @api private
 # @attr_reader [Dry::Validation::Schema] schema Schema for validation
-# @attr_reader [Array] errors Array with errors
+# @attr_reader [Hash] errors Array with errors
 class Ciesta::Validator
+  attr_reader :errors
+
   # Constructor
   def initialize
     @errors = []
@@ -32,5 +34,5 @@ class Ciesta::Validator
 
   private
 
-  attr_reader :schema, :errors
+  attr_reader :schema
 end

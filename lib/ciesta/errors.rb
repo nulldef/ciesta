@@ -5,7 +5,7 @@ module Ciesta
   ViolatesConstraints = Class.new(ArgumentError)
 
   # Error for invalid object
-  ObjectNotValid = Class.new(StandardError)
+  FormNotValid = Class.new(StandardError)
 
   # Error for missing field definition
   FieldNotDefined = Class.new(NoMethodError)

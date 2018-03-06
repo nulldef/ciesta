@@ -2,7 +2,7 @@
 
 SyncingUser = Struct.new(:name, :age)
 
-class SyncingForm < Ciesta::Form
+class ValidationForm < Ciesta::Form
   field :name
   field :age
 
@@ -12,27 +12,44 @@ class SyncingForm < Ciesta::Form
   end
 end
 
+class SimpleForm < Ciesta::Form
+  field :name
+  field :age
+end
+
 RSpec.describe Ciesta::Form do
-  let(:form) { SyncingForm.new(user) }
   let(:user) { SyncingUser.new(nil, nil) }
+  let(:attributes) { Hash[name: "Neo", age: 20] }
 
   before { form.assign(attributes) }
 
-  context "when params are valid" do
-    let(:attributes) { Hash[name: "Neo", age: 20] }
+  context "without validation" do
+    let(:form) { SimpleForm.new(user) }
 
-    context "without block" do
-      specify { expect { form.sync! }.not_to raise_error }
-    end
-
-    context "with block" do
-      specify { expect { |b| form.sync!(&b) }.to yield_with_args(user) }
-    end
+    specify { expect { form.sync! }.to change { user.name }.to("Neo") }
+    specify { expect { form.sync! }.to change { user.age }.to(20) }
   end
 
-  context "when params are invalid" do
-    let(:attributes) { Hash[name: "Neo", age: 5] }
+  context "with validation" do
+    let(:form) { ValidationForm.new(user) }
 
-    specify { expect { form.sync! }.to raise_error(Ciesta::ObjectNotValid) }
+    context "when params are valid" do
+      context "without block" do
+        specify { expect { form.sync! }.not_to raise_error }
+      end
+
+      context "with block" do
+        specify { expect { |b| form.sync!(&b) }.to yield_with_args(user) }
+      end
+    end
+
+    context "when params are invalid" do
+      let(:attributes) { Hash[name: "Neo", age: 5] }
+
+      specify do
+        expect { form.sync! }.to raise_error(Ciesta::FormNotValid)
+        expect(form.errors).to eq(age: ["must be greater than 18"])
+      end
+    end
   end
 end

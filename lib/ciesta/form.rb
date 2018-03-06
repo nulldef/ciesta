@@ -89,10 +89,10 @@ class Ciesta::Form
   #
   # @param [Block] block Block wich will be yielded after synfing
   #
-  # @raise Ciesta::ObjectNotValid
+  # @raise Ciesta::FormNotValid
   # @return [Boolean]
   def sync!(&block)
-    raise Ciesta::ObjectNotValid, "Form is not valid" unless valid?
+    raise Ciesta::FormNotValid, "Form is not valid" unless valid?
     syncer.sync(&block)
   end
 
