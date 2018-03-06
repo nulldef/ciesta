@@ -8,6 +8,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   Coveralls::SimpleCov::Formatter,
 ])
 SimpleCov.start
+Coveralls.wear!
 
 require "bundler/setup"
 require "pry"
