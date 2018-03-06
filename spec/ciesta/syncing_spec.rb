@@ -26,8 +26,8 @@ RSpec.describe Ciesta::Form do
   context "without validation" do
     let(:form) { SimpleForm.new(user) }
 
-    specify { expect { form.sync! }.to change { user.name }.to("Neo") }
-    specify { expect { form.sync! }.to change { user.age }.to(20) }
+    specify { expect { form.sync! }.to change(user, :name).to("Neo") }
+    specify { expect { form.sync! }.to change(user, :age).to(20) }
   end
 
   context "with validation" do
