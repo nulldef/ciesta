@@ -2,12 +2,12 @@
 
 # Class for syncing fields and object
 #
-# @api private
 # @attr_reader [Object] object Form objecy
 # @attr_reader [Ciesta::FieldList] fields Field list
 class Ciesta::Syncer
   # Constructor
   #
+  # @api private
   # @param [Object] object Form objecr
   # @param [Ciesta::FieldList] fields Field list
   def initialize(object, fields)

@@ -2,7 +2,6 @@
 
 # List of object fields
 #
-# @api private
 # @attr_reader [Hash<Symbol, Ciesta::Field>] list Field list
 class Ciesta::FieldList
   # Constructor
@@ -13,12 +12,14 @@ class Ciesta::FieldList
   # Adds new field to list
   #
   # @param [Ciesta::Field] field New field
+  # @api private
   def <<(field)
     list[field.name] = field
   end
 
   # Getting field by name
   #
+  # @api private
   # @param [Symbol] name Field name
   #
   # @return [Ciesta::Field]
@@ -28,6 +29,7 @@ class Ciesta::FieldList
 
   # Setting field value
   #
+  # @api private
   # @param [Symbol] name Field name
   # @param [any] value Field value
   def []=(name, value)
@@ -59,6 +61,7 @@ class Ciesta::FieldList
 
   # Getting all field names
   #
+  # @api private
   # @return [Array<Symbol>]
   def keys
     list.keys
@@ -66,6 +69,7 @@ class Ciesta::FieldList
 
   # Getting all field values
   #
+  # @api private
   # @return [Hash<Symbol, any>]
   def attributes
     list.values.each_with_object({}) { |field, mem| mem[field.name] = field.value }
@@ -73,6 +77,7 @@ class Ciesta::FieldList
 
   # Iterate over all fields
   #
+  # @api private
   # @param [Block] block Block to iterate
   def each
     list.each { |name, field| yield(name, field.value) }

@@ -2,7 +2,6 @@
 
 # Validatior class for form
 #
-# @api private
 # @attr_reader [Dry::Validation::Schema] schema Schema for validation
 # @attr_reader [Hash] errors Array with errors
 class Ciesta::Validator
@@ -15,6 +14,7 @@ class Ciesta::Validator
 
   # Set schema for validation
   #
+  # @api private
   # @param [Block] block Block wich returns the schema
   def use(&block)
     @schema = Dry::Validation.Form(&block)
@@ -24,6 +24,7 @@ class Ciesta::Validator
   #
   # @param [Hash<Symbol, any>] attributes Attributes to check
   #
+  # @api private
   # @return [Boolean]
   def valid?(attributes)
     return true if schema.nil?
