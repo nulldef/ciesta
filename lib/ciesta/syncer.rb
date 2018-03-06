@@ -17,8 +17,8 @@ module Ciesta
       true
     end
 
-    def sync
-      sync! rescue nil
+    def sync(&block)
+      sync!(&block) rescue false
     end
   end
 end

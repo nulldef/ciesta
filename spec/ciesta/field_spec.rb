@@ -34,7 +34,11 @@ RSpec.describe Ciesta::Field do
     end
 
     context "when default is proc" do
-      let(:default) { -> { 10 } }
+      let(:default) { -> { foo } }
+
+      let(:obj) { Class.new { def foo; 10; end }.new }
+
+      before { field.bind(obj) }
 
       specify { is_expected.to eq(10) }
     end
@@ -50,9 +54,16 @@ RSpec.describe Ciesta::Field do
     end
 
     context "when value is specified" do
-      let(:value) { "228" }
+      let(:value) { "100" }
 
-      specify { expect { setting }.to change(field, :value).to(228) }
+      specify { expect { setting }.to change(field, :value).to(100) }
+    end
+
+    context "when type is not violates constraints" do
+      let(:value) { "100" }
+      let(:type) { Ciesta::Types::Strict::Float }
+
+      specify { expect { setting }.to raise_error { Ciesta::ViolatesConstraints } }
     end
   end
 end

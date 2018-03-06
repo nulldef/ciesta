@@ -13,16 +13,14 @@ class SyncingForm < Ciesta::Form
 end
 
 RSpec.describe Ciesta::Form do
-  subject(:validation) { form.valid?(attributes) }
-
   let(:form) { SyncingForm.new(user) }
   let(:user) { SyncingUser.new(nil, nil) }
+
+  before { form.assign(attributes) }
 
   context "with bang" do
     context "when params are valid" do
       let(:attributes) { Hash[name: "Neo", age: 20] }
-
-      before { form.valid?(attributes) }
 
       context "without block" do
         specify { expect { form.sync! }.not_to raise_error }
@@ -36,15 +34,11 @@ RSpec.describe Ciesta::Form do
     context "when params are invalid" do
       let(:attributes) { Hash[name: "Neo", age: 5] }
 
-      before { form.valid?(attributes) }
-
       specify { expect { form.sync! }.to raise_error(Ciesta::NotValid) }
     end
   end
 
   context "without bang" do
-    before { form.valid?(attributes) }
-
     context "when params are valid" do
       let(:attributes) { Hash[name: "Neo", age: 20] }
 
@@ -53,14 +47,15 @@ RSpec.describe Ciesta::Form do
       end
 
       context "with block" do
-        specify { expect { |b| form.sync(&b) }.not_to yield_with_args(user) }
+        specify { expect { |b| form.sync(&b) }.to yield_with_args(user) }
       end
     end
 
     context "when params are invalid" do
       let(:attributes) { Hash[name: "Neo", age: 5] }
+      let(:block) { proc { raise "Some error" } }
 
-      specify { expect(form.sync).to be_truthy }
+      specify { expect(form.sync(&block)).to be_falsey }
     end
   end
 end

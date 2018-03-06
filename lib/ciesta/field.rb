@@ -10,7 +10,6 @@ module Ciesta
       @name = name.to_sym
       @type = options.delete(:type) || DEFAULT_TYPE
       @default = options.delete(:default)
-      @was_set = false
     end
 
     def value=(val)
@@ -27,16 +26,23 @@ module Ciesta
     end
 
     def bind(obj)
-      @default&.bind(obj)
+      @binding = obj
     end
 
     private
 
     def default
-      def_value = @default.respond_to?(:call) ? @default.call : @default
-      type[def_value]
+      type[default_value]
     rescue Dry::Types::ConstraintError
       raise Ciesta::ViolatesConstraints, "#{def_value} is not a #{type.name}"
+    end
+
+    def default_value
+      if @default.respond_to?(:call) && @binding
+        @binding.instance_exec(&@default)
+      else
+        @default
+      end
     end
   end
 end

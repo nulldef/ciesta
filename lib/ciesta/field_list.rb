@@ -24,7 +24,7 @@ module Ciesta
       attributes.each { |name, value| self[name] = value }
       true
     rescue NoMethodError => e
-      raise Ciesta::FieldNotDefined, e.message
+      raise Ciesta::FieldNotDefined, "Field #{e.name} is not specified"
     end
 
     def assign(attributes)

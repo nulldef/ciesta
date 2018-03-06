@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 require "coveralls"
+
 Coveralls.wear!
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+])
+SimpleCov.start
 
 require "bundler/setup"
 require "pry"
