@@ -18,44 +18,21 @@ RSpec.describe Ciesta::Form do
 
   before { form.assign(attributes) }
 
-  context "with bang" do
-    context "when params are valid" do
-      let(:attributes) { Hash[name: "Neo", age: 20] }
+  context "when params are valid" do
+    let(:attributes) { Hash[name: "Neo", age: 20] }
 
-      context "without block" do
-        specify { expect { form.sync! }.not_to raise_error }
-      end
-
-      context "with block" do
-        specify { expect { |b| form.sync!(&b) }.to yield_with_args(user) }
-      end
+    context "without block" do
+      specify { expect { form.sync! }.not_to raise_error }
     end
 
-    context "when params are invalid" do
-      let(:attributes) { Hash[name: "Neo", age: 5] }
-
-      specify { expect { form.sync! }.to raise_error(Ciesta::NotValid) }
+    context "with block" do
+      specify { expect { |b| form.sync!(&b) }.to yield_with_args(user) }
     end
   end
 
-  context "without bang" do
-    context "when params are valid" do
-      let(:attributes) { Hash[name: "Neo", age: 20] }
+  context "when params are invalid" do
+    let(:attributes) { Hash[name: "Neo", age: 5] }
 
-      context "without block" do
-        specify { expect(form.sync).to be_truthy }
-      end
-
-      context "with block" do
-        specify { expect { |b| form.sync(&b) }.to yield_with_args(user) }
-      end
-    end
-
-    context "when params are invalid" do
-      let(:attributes) { Hash[name: "Neo", age: 5] }
-      let(:block) { proc { raise "Some error" } }
-
-      specify { expect(form.sync(&block)).to be_falsey }
-    end
+    specify { expect { form.sync! }.to raise_error(Ciesta::ObjectNotValid) }
   end
 end

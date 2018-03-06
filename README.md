@@ -85,7 +85,7 @@ You can use methods `sync` and `sync!` for mapping form values to the object. Th
 
 ```ruby
 form.valid?(age: 10)
-form.sync! # => raises Ciesta::NotValid
+form.sync! # => raises Ciesta::ObjectNotValid
 form.sync  # => returns nil
 ```
 
