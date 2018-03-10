@@ -15,10 +15,10 @@ You should keep it in mind that here uses [dry-validation](https://github.com/dr
   - [Basic case](#basic-case)
   - [Syncing](#syncing)
   - [Validation](#validation)
-  - [Advanced declaring fields](#advanced-declaring-fields)
+  - [Advanced field declaration](#advanced-field-declaration)
     - [Types](#types)
     - [Default value](#default-value)
-  - [Mass updating values](#mass-updating-values)
+  - [Values mass update](#values-mass-update)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -42,14 +42,15 @@ Or install it yourself as:
 ## Usage
 
 ### Basic case
-Just imageine that we have a user object with `name` and `age` attributes:
+For example will be used user object with `name` and `age` attributes:
 
 ```ruby
 User = Struct.new(:name, :age)
 
 user = User.new(nil, nil)
 ```
-And we need to save new values and update and we will use simple form object:
+
+For setting and syncing new values let's create a form object:
 
 ```ruby
 class Form < Ciesta::Form
@@ -77,10 +78,10 @@ form.sync! do |user|
   user.make_happy!
 end
 ```
-Both methods `sync` and `sync!` are provides this DSL.
+Both `sync` and `sync!` provide this DSL.
 
 ### Validation
-There we want to validate incoming values. We should use `validate` method:
+For validating incoming values you can use `validate` method:
 
 ```ruby
 class Form < Ciesta::Form
@@ -96,7 +97,7 @@ end
 form = Form.new(user)
 ```
 
-Trying to sync with invalid form will raise `Ciesta::FormNotValid` error.
+An attempt to sync with invalid form will raise `Ciesta::FormNotValid` error.
 
 ```ruby
 form.age = 15
@@ -110,10 +111,10 @@ form.sync!  # => true
 user.age    # => 42
 ```
 
-### Advanced declaring fields
+### Advanced field declaration
 
 #### Types
-You can define a type of the field using `Ciesta::Types` namespace.
+You can define the type of a field using `Ciesta::Types` namespace.
 
 ```ruby
 field :age, type: Ciesta::Types::Coercible::Int
@@ -124,7 +125,7 @@ form.age # => 42
 Default type is `Ciesta::Types::Any`.
 
 #### Default value
-If your attribute wasn't set yet but value already is in use, you can set `default` option to avoid some kind of exceptions.
+If your attribute wasn’t set yet, but value is already in use, one can set a `default` option to avoid exceptions.
 
 ```ruby
 field :age, default: 42
@@ -132,7 +133,7 @@ field :age, default: 42
 form.age # => 42
 ```
 
-Default value can also be a `Proc`, wich will executed in object context.
+Default value can also be a `Proc`, wich will be called in the object context.
 
 ```ruby
 class User
@@ -148,8 +149,8 @@ field :age, default: -> { default_age }
 form.age # => 42
 ```
 
-## Mass updating values
-There are exists two methods for mass update form fields: `assign` and `assign!`.
+## Values mass update
+There are two methods for form fields mass update: `assign` and `assign!`.
 
 ```ruby
 form.assign!(name: "Neo", age: 30)
@@ -159,7 +160,7 @@ user.name # => "Neo"
 user.age  # => 30
 ```
 
-`assign!` method will raise `Ciesta::FieldNotDefined` error if one of passed attribute is not exists in the form.
+`assign!` method will raise `Ciesta::FieldNotDefined` error if one of the passed attributes is not declared in the form.
 
 ## Contributing
 
