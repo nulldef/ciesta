@@ -56,7 +56,11 @@ class Ciesta::FieldList
   # @return [Boolean]
   def assign(attributes)
     attributes = attributes.keep_if { |key| keys.include?(key) }
-    assign!(attributes) rescue false
+    begin
+      assign!(attributes)
+    rescue StandardError
+      false
+    end
   end
 
   # Getting all field names
