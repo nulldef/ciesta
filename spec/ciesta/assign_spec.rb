@@ -24,20 +24,14 @@ RSpec.describe "assign" do
     context "with valid params" do
       let(:params) { Hash[foo: 42] }
 
-      specify do
-        expect { assigning }.to change(form, :foo)
-        expect(form.foo).to eq(42)
-      end
+      specify { expect { assigning }.to change(form, :foo).to(42) }
     end
 
     context "with form without object" do
       let(:form) { AssignForm.new }
       let(:params) { Hash[foo: 42] }
 
-      specify do
-        expect { assigning }.to change(form, :foo)
-        expect(form.foo).to eq(42)
-      end
+      specify { expect { assigning }.to change(form, :foo).to(42) }
     end
   end
 
@@ -53,20 +47,14 @@ RSpec.describe "assign" do
     context "with valid params" do
       let(:params) { Hash[bar: 1, foo: 42] }
 
-      specify do
-        expect { assigning }.to change(form, :foo)
-        expect(form.foo).to eq(42)
-      end
+      specify { expect { assigning }.to change(form, :foo).to(42) }
     end
 
     context "with form without object" do
       let(:form) { AssignForm.new }
       let(:params) { Hash[foo: 42] }
 
-      specify do
-        expect { assigning }.to change(form, :foo)
-        expect(form.foo).to eq(42)
-      end
+      specify { expect { assigning }.to change(form, :foo).to(42) }
     end
   end
 end
