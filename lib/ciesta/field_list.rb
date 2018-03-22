@@ -84,7 +84,7 @@ class Ciesta::FieldList
   # @api private
   # @param [Block] block Block to iterate
   def each
-    list.each { |name, field| yield(name, field.value) }
+    list.each_value { |field| yield(field) }
   end
 
   private

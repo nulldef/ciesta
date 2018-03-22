@@ -17,6 +17,18 @@ class SimpleForm < Ciesta::Form
   field :age
 end
 
+class ExtraForm < Ciesta::Form
+  field :name
+  field :age
+  field :email
+end
+
+class VirtualForm < Ciesta::Form
+  field :name
+  field :age
+  field :email, virtual: true
+end
+
 RSpec.describe Ciesta::Form do
   let(:user) { SyncingUser.new(nil, nil) }
   let(:attributes) { Hash[name: "Neo", age: 20] }
@@ -37,6 +49,18 @@ RSpec.describe Ciesta::Form do
       let(:form) { SimpleForm.new }
 
       specify { expect(form.sync).to be_falsey }
+    end
+
+    context "when object has extra fields" do
+      let(:form) { ExtraForm.new(user) }
+
+      specify { expect(form.sync).to be_truthy }
+    end
+
+    context "when object has virtual fields" do
+      let(:form) { ExtraForm.new(user) }
+
+      specify { expect(form.sync).to be_truthy }
     end
   end
 
@@ -64,11 +88,22 @@ RSpec.describe Ciesta::Form do
     end
 
     context "when object not passed" do
-      let(:attributes) { Hash[name: "Neo", age: 5] }
+      let(:attributes) { Hash[name: "Neo", age: 20] }
       let(:form) { ValidationForm.new }
 
       specify { expect { form.sync! }.to raise_error(Ciesta::ModelNotPresent) }
-      specify { expect(form.sync).to be_falsey }
+    end
+
+    context "when object has extra fields" do
+      let(:form) { ExtraForm.new(user) }
+
+      specify { expect { form.sync! }.to raise_error(Ciesta::AttributeNotDefined) }
+    end
+
+    context "when object has virtual fields" do
+      let(:form) { ExtraForm.new(user) }
+
+      specify { expect(form.sync).to be_truthy }
     end
   end
 end
