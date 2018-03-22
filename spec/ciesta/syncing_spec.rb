@@ -23,19 +23,30 @@ RSpec.describe Ciesta::Form do
 
   before { form.assign(attributes) }
 
-  context "without validation" do
+  context "without bang" do
     let(:form) { SimpleForm.new(user) }
 
-    specify { expect { form.sync! }.to change(user, :name).to("Neo") }
-    specify { expect { form.sync! }.to change(user, :age).to(20) }
+    context "when object has been passed" do
+      specify { expect(form.sync).to be_truthy }
+      specify { expect { form.sync }.to change(user, :name).to("Neo") }
+      specify { expect { form.sync }.to change(user, :age).to(20) }
+    end
+
+    context "when object not passed" do
+      let(:attributes) { Hash[name: "Neo", age: 5] }
+      let(:form) { SimpleForm.new }
+
+      specify { expect(form.sync).to be_falsey }
+    end
   end
 
-  context "with validation" do
+  context "with bang!" do
     let(:form) { ValidationForm.new(user) }
 
     context "when params are valid" do
       context "without block" do
-        specify { expect { form.sync! }.not_to raise_error }
+        specify { expect { form.sync! }.to change(user, :name).to("Neo") }
+        specify { expect { form.sync! }.to change(user, :age).to(20) }
       end
 
       context "with block" do
@@ -50,6 +61,14 @@ RSpec.describe Ciesta::Form do
         expect { form.sync! }.to raise_error(Ciesta::FormNotValid)
         expect(form.errors).to eq(age: ["must be greater than 18"])
       end
+    end
+
+    context "when object not passed" do
+      let(:attributes) { Hash[name: "Neo", age: 5] }
+      let(:form) { ValidationForm.new }
+
+      specify { expect { form.sync! }.to raise_error(Ciesta::ModelNotPresent) }
+      specify { expect(form.sync).to be_falsey }
     end
   end
 end

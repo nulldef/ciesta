@@ -44,4 +44,10 @@ RSpec.describe "validation" do
 
     it_behaves_like :check_params
   end
+
+  context "when object is not present" do
+    let(:form) { ValidationForm.new }
+
+    it_behaves_like :check_params
+  end
 end

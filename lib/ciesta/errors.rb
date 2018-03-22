@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ciesta
-  # Error class for error about violating constraints
+  # Error for violating constraints
   ViolatesConstraints = Class.new(ArgumentError)
 
   # Error for invalid object
@@ -9,4 +9,7 @@ module Ciesta
 
   # Error for missing field definition
   FieldNotDefined = Class.new(NoMethodError)
+
+  # Error for nil object
+  ModelNotPresent = Class.new(StandardError)
 end
