@@ -65,7 +65,7 @@ class Ciesta::Form
 
     return if object.nil?
 
-    values = fields.keys.map { |key, mem| [key, object.public_send(key)] }.to_h
+    values = fields.keys.map { |key| [key, object.public_send(key)] }.to_h
     assign(values)
   end
 
