@@ -12,11 +12,6 @@ class Ciesta::Form
   # @see Ciesta::FieldList
   delegate :assign, :assign!, :attributes, to: :fields
 
-  # @!method sync!
-  # @!method sync
-  # @see Ciesta::Syncer
-  delegate :sync, to: :syncer
-
   # @!method errors
   # @see Ciesta::Validator
   delegate :errors, to: :validator
@@ -65,14 +60,13 @@ class Ciesta::Form
   # Constructor
   #
   # @param [Object] object Object wich will be updated though this form
-  def initialize(object)
+  def initialize(object = nil)
     @object = object
 
-    obj_values = fields.keys.each_with_object({}) do |key, mem|
-      mem[key] = object.public_send(key)
-    end
+    return if object.nil?
 
-    assign(obj_values)
+    values = fields.keys.map { |key, mem| [key, object.public_send(key)] }.to_h
+    assign(values)
   end
 
   # Checks if form is valid
@@ -87,12 +81,28 @@ class Ciesta::Form
 
   # Sync form attributes to object
   #
+  # @see Ciesta::Syncer
+  #
   # @param [Block] block Block wich will be yielded after synfing
   #
+  # @raise Ciesta::ModelNotPresent
   # @raise Ciesta::FormNotValid
   # @return [Boolean]
   def sync!(&block)
+    raise Ciesta::ModelNotPresent, "Model not present" if object.nil?
     raise Ciesta::FormNotValid, "Form is not valid" unless valid?
+    syncer.sync(&block)
+  end
+
+  # Sync form attributes to object
+  #
+  # @see Ciesta::Syncer
+  #
+  # @param [Block] block Block wich will be yielded after synfing
+  #
+  # @return [Boolean]
+  def sync(&block)
+    return if object.nil?
     syncer.sync(&block)
   end
 

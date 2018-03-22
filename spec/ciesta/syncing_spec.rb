@@ -51,5 +51,13 @@ RSpec.describe Ciesta::Form do
         expect(form.errors).to eq(age: ["must be greater than 18"])
       end
     end
+
+    context "when object not passed" do
+      let(:attributes) { Hash[name: "Neo", age: 5] }
+      let(:form) { ValidationForm.new }
+
+      specify { expect { form.sync! }.to raise_error(Ciesta::ModelNotPresent) }
+      specify { expect(form.sync).to be_falsey }
+    end
   end
 end

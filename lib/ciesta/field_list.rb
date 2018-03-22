@@ -72,7 +72,7 @@ class Ciesta::FieldList
   # @api private
   # @return [Hash<Symbol, any>]
   def attributes
-    list.values.each_with_object({}) { |field, mem| mem[field.name] = field.value }
+    list.values.map { |field, mem| [field.name, field.value] }.to_h
   end
 
   # Iterate over all fields

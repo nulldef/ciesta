@@ -10,6 +10,8 @@ RSpec.describe "assign" do
   let(:obj) { AssignObj.new(0) }
   let(:form) { AssignForm.new(obj) }
 
+  before { form.assign(foo: nil) }
+
   context "with bang" do
     subject(:assigning) { form.assign!(params) }
 
@@ -22,7 +24,20 @@ RSpec.describe "assign" do
     context "with valid params" do
       let(:params) { Hash[foo: 42] }
 
-      specify { expect { assigning }.to change(form, :foo).by(42) }
+      specify do
+        expect { assigning }.to change(form, :foo)
+        expect(form.foo).to eq(42)
+      end
+    end
+
+    context "with form without object" do
+      let(:form) { AssignForm.new }
+      let(:params) { Hash[foo: 42] }
+
+      specify do
+        expect { assigning }.to change(form, :foo)
+        expect(form.foo).to eq(42)
+      end
     end
   end
 
@@ -38,7 +53,20 @@ RSpec.describe "assign" do
     context "with valid params" do
       let(:params) { Hash[bar: 1, foo: 42] }
 
-      specify { expect { assigning }.to change(form, :foo).by(42) }
+      specify do
+        expect { assigning }.to change(form, :foo)
+        expect(form.foo).to eq(42)
+      end
+    end
+
+    context "with form without object" do
+      let(:form) { AssignForm.new }
+      let(:params) { Hash[foo: 42] }
+
+      specify do
+        expect { assigning }.to change(form, :foo)
+        expect(form.foo).to eq(42)
+      end
     end
   end
 end
