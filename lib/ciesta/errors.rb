@@ -10,6 +10,9 @@ module Ciesta
   # Error for missing field definition
   FieldNotDefined = Class.new(NoMethodError)
 
+  # Error for missing method of model
+  AttributeNotDefined = Class.new(NoMethodError)
+
   # Error for nil object
   ModelNotPresent = Class.new(StandardError)
 end

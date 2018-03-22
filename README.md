@@ -18,6 +18,7 @@ You should keep it in mind that here uses [dry-validation](https://github.com/dr
   - [Advanced field declaration](#advanced-field-declaration)
     - [Types](#types)
     - [Default value](#default-value)
+    - [Virtual field](#virtual-field)
   - [Values mass update](#values-mass-update)
 - [Contributing](#contributing)
 - [License](#license)
@@ -122,6 +123,7 @@ field :age, type: Ciesta::Types::Coercible::Int
 form.age = "42"
 form.age # => 42
 ```
+
 Default type is `Ciesta::Types::Any`.
 
 #### Default value
@@ -147,6 +149,19 @@ end
 field :age, default: -> { default_age }
 ...
 form.age # => 42
+```
+
+### Virtual field
+You can declare field as "virtual". It means that when you call `sync!` it will not raise an error "model attribute is not defined".
+
+```ruby
+User = Struct.new(:name)
+...
+field :age, virtual: true
+...
+form.age = "42"
+form.age # => 42
+form.sync! # => true
 ```
 
 ## Values mass update
