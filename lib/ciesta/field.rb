@@ -61,6 +61,11 @@ class Ciesta::Field
     @virtual
   end
 
+  # Clear field
+  def clear!
+    @value = nil
+  end
+
   private
 
   # Returns typed default value for field

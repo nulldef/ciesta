@@ -87,6 +87,13 @@ class Ciesta::FieldList
     list.each_value { |field| yield(field) }
   end
 
+  # Clear all fields
+  #
+  # @api private
+  def clear!
+    list.each_value(&:clear!)
+  end
+
   private
 
   attr_reader :list
