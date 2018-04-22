@@ -10,7 +10,7 @@ class Ciesta::Form
   # @!method assign!
   # @!method attributes
   # @see Ciesta::FieldList
-  delegate :assign, :assign!, :attributes, to: :fields
+  delegate :assign, :assign!, :attributes, :clear!, to: :fields
 
   # @!method errors
   # @see Ciesta::Validator
@@ -67,6 +67,7 @@ class Ciesta::Form
   # @param [Object] object Object wich will be updated though this form
   def initialize(object = nil)
     @object = object
+    clear!
 
     return if object.nil?
 
