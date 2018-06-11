@@ -1,4 +1,6 @@
-class ClearForm < Ciesta::Form
+class ClearForm
+  include Ciesta
+
   field :name
 end
 

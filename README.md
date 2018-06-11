@@ -54,9 +54,15 @@ user = User.new(nil, nil)
 For setting and syncing new values let's create a form object:
 
 ```ruby
-class Form < Ciesta::Form
+class Form
+  include Ciesta
+
   field :name
   field :age
+
+  def age
+    super.to_i
+  end
 end
 
 form = Form.new(user)
@@ -64,7 +70,7 @@ form = Form.new(user)
 
 ```ruby
 form.name = "John"
-form.age = 33
+form.age = "33"
 form.sync!
 
 user.name # => "John"
@@ -85,7 +91,9 @@ Both `sync` and `sync!` provide this DSL.
 For validating incoming values you can use `validate` method:
 
 ```ruby
-class Form < Ciesta::Form
+class Form
+  include Ciesta
+
   field :name
   field :age
 

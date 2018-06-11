@@ -2,7 +2,9 @@
 
 SyncingUser = Struct.new(:name, :age)
 
-class ValidationForm < Ciesta::Form
+class ValidationForm
+  include Ciesta
+
   field :name
   field :age
 
@@ -12,24 +14,30 @@ class ValidationForm < Ciesta::Form
   end
 end
 
-class SimpleForm < Ciesta::Form
+class SimpleForm
+  include Ciesta
+
   field :name
   field :age
 end
 
-class ExtraForm < Ciesta::Form
+class ExtraForm
+  include Ciesta
+
   field :name
   field :age
   field :email
 end
 
-class VirtualForm < Ciesta::Form
+class VirtualForm
+  include Ciesta
+
   field :name
   field :age
   field :email, virtual: true
 end
 
-RSpec.describe Ciesta::Form do
+RSpec.describe Ciesta do
   let(:user) { SyncingUser.new(nil, nil) }
   let(:attributes) { Hash[name: "Neo", age: 20] }
 

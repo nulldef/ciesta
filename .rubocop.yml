@@ -40,6 +40,9 @@ Style/FrozenStringLiteralComment:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/ModuleFunction:
+  EnforcedStyle: extend_self
+
 # Lint
 Lint/AmbiguousOperator:
   Enabled: false

@@ -2,7 +2,9 @@
 
 ValidationUser = Struct.new(:name, :age)
 
-class ValidationForm < Ciesta::Form
+class ValidationForm
+  include Ciesta
+
   field :name
   field :age
 
