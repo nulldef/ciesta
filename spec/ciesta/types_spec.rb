@@ -2,7 +2,9 @@
 
 Obj = Struct.new(:foo)
 
-class FooForm < Ciesta::Form
+class FooForm
+  include Ciesta
+
   field :foo, type: Ciesta::Types::Coercible::Int, default: 0
 end
 

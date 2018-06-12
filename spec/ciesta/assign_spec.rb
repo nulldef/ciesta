@@ -2,7 +2,9 @@
 
 AssignObj = Struct.new(:foo)
 
-class AssignForm < Ciesta::Form
+class AssignForm
+  include Ciesta
+
   field :foo
 end
 
