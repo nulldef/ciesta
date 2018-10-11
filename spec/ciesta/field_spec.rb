@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Ciesta::Field do
-  let(:type) { Ciesta::Types::Coercible::Int.optional }
+  let(:type) { Ciesta::Types::Coercible::Integer.optional }
   let(:options) { Hash[type: type, default: default] }
   let(:field) { described_class.new(:foo, **options) }
   let(:default) { 42 }

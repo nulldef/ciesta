@@ -17,7 +17,7 @@ class Ciesta::Validator
   # @api private
   # @param [Block] block Block wich returns the schema
   def use(&block)
-    @schema = Dry::Validation.Form(&block)
+    @schema = Dry::Validation.Params(&block)
   end
 
   # Checks if schema is valid
