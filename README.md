@@ -185,6 +185,14 @@ user.age  # => 30
 
 `assign!` method will raise `Ciesta::FieldNotDefined` error if one of the passed attributes is not declared in the form.
 
+## Create a form from hash
+You can create a form from hash with values
+
+```ruby
+form = Form.form_from(name: "Neo")
+form.name # => "Neo"
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at [https://github.com/nulldef/ciesta](https://github.com/nulldef/ciesta).

@@ -17,6 +17,18 @@ class SuperForm
   end
 end
 
+class StrictForm
+  include Ciesta
+
+  field :smth, type: Ciesta::Types::Strict::Float
+end
+
+class CoercibleForm
+  include Ciesta
+
+  field :smth, type: Ciesta::Types::Coercible::Float
+end
+
 RSpec.describe Ciesta do
   it "has a version number" do
     expect(Ciesta::VERSION).not_to be nil
@@ -60,6 +72,35 @@ RSpec.describe Ciesta do
       it "sets only existing keys" do
         is_expected.to be_a(SuperForm)
         expect(form.number).to eq(1234.0)
+      end
+    end
+  end
+
+  describe "types" do
+    let(:hash) { Hash[smth: value] }
+    let(:value) { 200.0 }
+
+    context "strict types" do
+      let(:form) { StrictForm.form_from(hash) }
+
+      specify { expect(form.smth).to eq(200.0) }
+
+      context "invalid value" do
+        let(:value) { 200 }
+
+        specify { expect { form }.to raise_error { Ciesta::ViolatesConstraints } }
+      end
+    end
+
+    context "coercible type" do
+      let(:form) { CoercibleForm.form_from(hash) }
+
+      specify { expect(form.smth).to eq(200.0) }
+
+      context "casts to float" do
+        let(:value) { 200 }
+
+        specify { expect(form.smth).to eq(200.0) }
       end
     end
   end
