@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.name          = "ciesta"
   spec.version       = Ciesta::VERSION
   spec.authors       = ["Alexey"]
-  spec.email         = ["alex.coder1@gmail.com"]
+  spec.email         = ["nulldefiner@gmail.com"]
 
   spec.summary       = "Create form objects easy"
   spec.description   = "Gem for creating and using form object"
@@ -25,8 +25,8 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.1"
 
@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "coveralls", "~> 0.8"
   spec.add_development_dependency "pry", "~> 0.11"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop", "~> 0.52"
+  spec.add_development_dependency "rake", "~> 10.5"
+  spec.add_development_dependency "rspec", "~> 3.8"
+  spec.add_development_dependency "rubocop", "~> 0.59"
 end
