@@ -3,7 +3,9 @@ sudo: false
 language: ruby
 cache: bundler
 before_install: gem install bundler
-script: bundle exec rspec
+script:
+  - bundle exec rspec
+  - bundle outdated
 rvm:
   - ruby-head
   - 2.4.2
