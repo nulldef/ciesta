@@ -5,7 +5,7 @@ Obj = Struct.new(:foo)
 class FooForm
   include Ciesta
 
-  field :foo, type: Ciesta::Types::Coercible::Int, default: 0
+  field :foo, type: Ciesta::Types::Coercible::Integer, default: 0
 end
 
 RSpec.describe "types" do
