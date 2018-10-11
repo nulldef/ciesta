@@ -76,7 +76,7 @@ class Ciesta::Field
   def default
     type[raw_default]
   rescue Dry::Types::ConstraintError
-    raise Ciesta::ViolatesConstraints, "#{def_value} is not a #{type.name}"
+    raise Ciesta::ViolatesConstraints, "#{raw_default} is not a #{type.name}"
   end
 
   # Returns raw default value
