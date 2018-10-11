@@ -56,6 +56,7 @@ module Ciesta
     # @return [Boolean]
     def sync!(&block)
       raise Ciesta::FormNotValid, "Form is not valid" unless valid?
+
       syncer.sync!(&block)
     end
 

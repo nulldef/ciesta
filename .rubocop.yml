@@ -1,28 +1,15 @@
 AllCops:
-  TargetRubyVersion: 2.5.1
-  Exclude:
-    - db/schema.rb
-    - config/**/*.rb
-
-# Metrics
-Metrics/CyclomaticComplexity:
-  Enabled: true
-  Max: 6
+  TargetRubyVersion: 2.2
 
 Metrics/LineLength:
-  Enabled: true
   Max: 100
-  AllowHeredoc: true
-  IgnoredPatterns: ['#.*']
+  Exclude:
+    - ciesta.gemspec
 
 Metrics/BlockLength:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
+  Exclude:
+    - spec/**/*.rb
+    - ciesta.gemspec
 
 # Style
 Style/StringLiterals:

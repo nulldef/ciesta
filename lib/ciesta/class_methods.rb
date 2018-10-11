@@ -18,7 +18,7 @@ module Ciesta
     def field(name, **options)
       name = name.to_sym
       fields << Ciesta::Field.new(name, options)
-      proxy.instance_eval do 
+      proxy.instance_eval do
         define_method(name) { self.class.fields[name] }
         define_method("#{name}=") { |value| self.class.fields[name] = value }
       end
