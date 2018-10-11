@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
+require "forwardable"
 require "dry-types"
 require "dry-validation"
-require "ciesta/delegator"
 require "ciesta/version"
 require "ciesta/field_list"
 require "ciesta/syncer"

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 lib = File.expand_path('lib', __dir__)
@@ -28,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = ">= 2.1"
+  spec.required_ruby_version = ">= 2.2"
 
   spec.add_dependency "dry-types", "~> 0.13"
   spec.add_dependency "dry-validation", "~> 0.12"
