@@ -1,21 +1,21 @@
 module Ciesta
   module InstanceMethods
-    extend Ciesta::Delegator
+    extend Forwardable
 
     # @!method assign
     # @!method assign!
     # @!method attributes
     # @see Ciesta::FieldList
-    delegate :assign, :assign!, :attributes, :clear!, to: :fields
+    def_delegators :fields, :assign, :assign!, :attributes, :clear!
 
     # @!method errors
     # @see Ciesta::Validator
-    delegate :errors, to: :validator
+    def_delegators :validator, :errors
 
     # @!method sync
     # @!method sync!
     # @see Ciesta::Syncer
-    delegate :sync, to: :syncer
+    def_delegators :syncer, :sync
 
     attr_accessor :object
 
