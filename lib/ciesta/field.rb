@@ -20,7 +20,6 @@ class Ciesta::Field
     @name = name.to_sym
     @type = options.delete(:type) || DEFAULT_TYPE
     @default = options.delete(:default)
-    @virtual = options.delete(:virtual) || false
   end
 
   # Sets a new value for field
@@ -50,15 +49,6 @@ class Ciesta::Field
   # @param [Object] obj Object to mapping to
   def bind(obj)
     @binding = obj
-  end
-
-  # Returns true if field is virtual
-  #
-  # @api private
-  #
-  # @return [Boolean]
-  def virtual?
-    @virtual
   end
 
   # Clear field

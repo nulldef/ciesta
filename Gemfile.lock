@@ -102,6 +102,7 @@ DEPENDENCIES
   rake (~> 10.5)
   rspec (~> 3.8)
   rubocop (~> 0.59)
+  simplecov (~> 0.16)
 
 BUNDLED WITH
    1.16.3

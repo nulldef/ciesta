@@ -65,7 +65,6 @@ class Ciesta::FieldList
     begin
       assign!(attributes)
     rescue Ciesta::FieldNotDefined
-      false
     end
   end
 
@@ -83,14 +82,6 @@ class Ciesta::FieldList
   # @return [Hash<Symbol, any>]
   def attributes
     list.values.map { |field| [field.name, field.value] }.to_h
-  end
-
-  # Iterate over all fields
-  #
-  # @api private
-  # @param [Block] block Block to iterate
-  def each
-    list.each_value { |field| yield(field) }
   end
 
   # Clear all fields
