@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-ValidationUser = Struct.new(:name, :age)
-
 class ValidationForm
   include Ciesta
 
@@ -17,7 +15,7 @@ end
 RSpec.describe "validation" do
   subject(:validation) { form.valid? }
 
-  let(:form) { ValidationForm.new(user) }
+  let(:form) { ValidationForm.new(hash) }
 
   before { form.assign(attributes) }
 
@@ -35,19 +33,19 @@ RSpec.describe "validation" do
     end
   end
 
-  context "when object is filled" do
-    let(:user) { ValidationUser.new("John", 42) }
+  context "when initial values is present" do
+    let(:hash) { Hash["name" => "John", age: 42] }
 
     it_behaves_like :check_params
   end
 
   context "when object is empty" do
-    let(:user) { ValidationUser.new(nil, nil) }
+    let(:hash) { Hash[] }
 
     it_behaves_like :check_params
   end
 
-  context "when object is not present" do
+  context "when hash is not present" do
     let(:form) { ValidationForm.new }
 
     it_behaves_like :check_params

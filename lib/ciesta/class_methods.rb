@@ -2,14 +2,6 @@ module Ciesta
   module ClassMethods
     extend self
 
-    def form_from(**hash)
-      form = new
-      hash.each do |(k, v)|
-        form.public_send("#{k}=", v) if form.respond_to?("#{k}=")
-      end
-      form
-    end
-
     # Declare new form field
     #
     # @param [Symbol] name Field name
@@ -17,14 +9,14 @@ module Ciesta
     # @option (see Ciesta::Field)
     def field(name, **options)
       name = name.to_sym
-      fields << Ciesta::Field.new(name, options)
+      definitions[name] = options
       proxy.instance_eval do
-        define_method(name) { self.class.fields[name] }
-        define_method("#{name}=") { |value| self.class.fields[name] = value }
+        define_method(name) { fields[name] }
+        define_method("#{name}=") { |value| fields[name] = value }
       end
     end
 
-    # Declare rules for valudation
+    # Declare rules for validation
     #
     # @param [Block] block Block with validation rules
     # @see http://dry-rb.org/gems/dry-validation
@@ -32,12 +24,12 @@ module Ciesta
       validator.use(&block)
     end
 
-    # Returns field list
+    # Returns fields definitions
     #
     # @api private
     # @return [Ciesta::FieldList]
-    def fields
-      @fields ||= Ciesta::FieldList.new
+    def definitions
+      @definitions ||= {}
     end
 
     # Returns form validator

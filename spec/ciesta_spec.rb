@@ -35,7 +35,7 @@ RSpec.describe Ciesta do
   end
 
   describe "creation" do
-    context "when object has been passed" do
+    context "when hash has been passed" do
       subject(:form) { CarForm.new }
 
       it "creates empty form object" do
@@ -58,7 +58,7 @@ RSpec.describe Ciesta do
   end
 
   describe "building form" do
-    subject(:form) { SuperForm.form_from(hash) }
+    subject(:form) { SuperForm.new(hash) }
     let(:hash) { Hash[number: "33"] }
 
     it "builds form from hash" do
@@ -81,7 +81,7 @@ RSpec.describe Ciesta do
     let(:value) { 200.0 }
 
     context "strict types" do
-      let(:form) { StrictForm.form_from(hash) }
+      subject(:form) { StrictForm.new(hash) }
 
       specify { expect(form.smth).to eq(200.0) }
 
@@ -93,7 +93,7 @@ RSpec.describe Ciesta do
     end
 
     context "coercible type" do
-      let(:form) { CoercibleForm.form_from(hash) }
+      subject(:form) { CoercibleForm.new(hash) }
 
       specify { expect(form.smth).to eq(200.0) }
 

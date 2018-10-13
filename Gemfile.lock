@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ciesta (0.3.2)
+    ciesta (0.4.0)
       dry-types (~> 0.13)
       dry-validation (~> 0.12)
 
@@ -102,6 +102,7 @@ DEPENDENCIES
   rake (~> 10.5)
   rspec (~> 3.8)
   rubocop (~> 0.59)
+  simplecov (~> 0.16)
 
 BUNDLED WITH
    1.16.3

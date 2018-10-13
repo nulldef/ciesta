@@ -4,6 +4,18 @@
 #
 # @attr_reader [Hash<Symbol, Ciesta::Field>] list Field list
 class Ciesta::FieldList
+  # Define a new field list
+  #
+  # @api private
+  # @param [Hash] definitions Hash of fields definitions
+  #
+  # @return Ciesta::FieldList
+  def self.define(definitions)
+    definitions.each_with_object(new) do |(name, options), list|
+      list << Ciesta::Field.new(name, options)
+    end
+  end
+
   # Constructor
   def initialize
     @list = {}
@@ -44,7 +56,6 @@ class Ciesta::FieldList
   # @return [Boolean]
   def assign!(attributes)
     attributes.each { |name, value| self[name] = value }
-    true
   rescue NoMethodError => e
     raise Ciesta::FieldNotDefined, "Field #{e.name} is not specified"
   end
@@ -58,8 +69,8 @@ class Ciesta::FieldList
     attributes = attributes.keep_if { |key| keys.include?(key) }
     begin
       assign!(attributes)
-    rescue StandardError
-      false
+    rescue Ciesta::FieldNotDefined # rubocop:disable Lint/HandleExceptions
+      # do nothing
     end
   end
 
@@ -77,14 +88,6 @@ class Ciesta::FieldList
   # @return [Hash<Symbol, any>]
   def attributes
     list.values.map { |field| [field.name, field.value] }.to_h
-  end
-
-  # Iterate over all fields
-  #
-  # @api private
-  # @param [Block] block Block to iterate
-  def each
-    list.each_value { |field| yield(field) }
   end
 
   # Clear all fields

@@ -16,11 +16,10 @@ class Ciesta::Field
   # @param [Hash] options Field's options
   # @option [Ciesta::Types::Definition] :type Type of value stored in this field
   # @option [Proc, Lambda, any] :default Default value for this field
-  def initialize(name, options)
+  def initialize(name, **options)
     @name = name.to_sym
     @type = options.delete(:type) || DEFAULT_TYPE
     @default = options.delete(:default)
-    @virtual = options.delete(:virtual) || false
   end
 
   # Sets a new value for field
@@ -32,7 +31,7 @@ class Ciesta::Field
     @value = type[val]
     @was_set = true
   rescue Dry::Types::ConstraintError
-    raise Ciesta::ViolatesConstraints, "#{val} is not a #{type.name}"
+    raise Ciesta::ViolatesConstraints, "#{val} is not a valid #{name} (#{type.name})"
   end
 
   # Returns current value
@@ -50,15 +49,6 @@ class Ciesta::Field
   # @param [Object] obj Object to mapping to
   def bind(obj)
     @binding = obj
-  end
-
-  # Returns true if field is virtual
-  #
-  # @api private
-  #
-  # @return [Boolean]
-  def virtual?
-    @virtual
   end
 
   # Clear field
