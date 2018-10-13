@@ -68,6 +68,11 @@ form = Form.new(user)
 ```ruby
 form.name = "John"
 form.age = "33"
+
+...
+
+form.name # => "John"
+form.age # => 33
 ```
 
 ### Validation
