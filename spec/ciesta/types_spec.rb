@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-Obj = Struct.new(:foo)
-
 class FooForm
   include Ciesta
 
@@ -9,8 +7,8 @@ class FooForm
 end
 
 RSpec.describe "types" do
-  let(:obj) { Obj.new }
-  let(:form) { FooForm.new(obj) }
+  let(:hash) { Hash[] }
+  let(:form) { FooForm.new(hash) }
 
   before { form.assign(foo: foo) }
 

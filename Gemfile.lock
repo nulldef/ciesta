@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ciesta (0.3.2)
+    ciesta (0.4.0)
       dry-types (~> 0.13)
       dry-validation (~> 0.12)
 

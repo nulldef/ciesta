@@ -4,6 +4,12 @@
 #
 # @attr_reader [Hash<Symbol, Ciesta::Field>] list Field list
 class Ciesta::FieldList
+  def self.define(definitions)
+    definitions.each_with_object(new) do |(name, options), list|
+      list << Ciesta::Field.new(name, options)
+    end
+  end
+
   # Constructor
   def initialize
     @list = {}
@@ -58,7 +64,7 @@ class Ciesta::FieldList
     attributes = attributes.keep_if { |key| keys.include?(key) }
     begin
       assign!(attributes)
-    rescue StandardError
+    rescue Ciesta::FieldNotDefined
       false
     end
   end

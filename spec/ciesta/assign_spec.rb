@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-AssignObj = Struct.new(:foo)
-
 class AssignForm
   include Ciesta
 
@@ -9,10 +7,13 @@ class AssignForm
 end
 
 RSpec.describe "assign" do
-  let(:obj) { AssignObj.new(0) }
-  let(:form) { AssignForm.new(obj) }
+  let(:hash) { Hash[foo: 0] }
+  let(:form) { AssignForm.new(hash) }
 
-  before { form.assign(foo: nil) }
+  it "assigns a value" do
+    expect(form.foo).to eq(0)
+    expect { form.foo = 111 }.to change(form, :foo).to(111)
+  end
 
   context "with bang" do
     subject(:assigning) { form.assign!(params) }
@@ -29,7 +30,7 @@ RSpec.describe "assign" do
       specify { expect { assigning }.to change(form, :foo).to(42) }
     end
 
-    context "with form without object" do
+    context "with form without an initial values" do
       let(:form) { AssignForm.new }
       let(:params) { Hash[foo: 42] }
 
@@ -52,7 +53,7 @@ RSpec.describe "assign" do
       specify { expect { assigning }.to change(form, :foo).to(42) }
     end
 
-    context "with form without object" do
+    context "with form without an initial values" do
       let(:form) { AssignForm.new }
       let(:params) { Hash[foo: 42] }
 

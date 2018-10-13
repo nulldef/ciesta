@@ -12,27 +12,14 @@ module Ciesta
     # @see Ciesta::Validator
     def_delegators :validator, :errors
 
-    # @!method sync
-    # @!method sync!
-    # @see Ciesta::Syncer
-    def_delegators :syncer, :sync
-
-    attr_accessor :object
+    attr_reader :fields
 
     # Constructor
     #
-    # @param [Object] object Object wich will be updated though this form
-    def initialize(object = nil)
-      @object = object
-      clear!
-
-      return if object.nil?
-
-      values = fields.keys.each_with_object({}) do |key, mem|
-        mem[key] = object.public_send(key) if object.respond_to?(key)
-      end
-
-      assign(values)
+    # @param [Hash] values Hash with values
+    def initialize(values = {})
+      @fields = Ciesta::FieldList.define(self.class.definitions)
+      assign(values || {})
     end
 
     # Checks if form is valid
@@ -40,35 +27,12 @@ module Ciesta
     # @param [Hash] params Attrubutes to assign before validation
     #
     # @return [Boolean]
-    def valid?(params = nil)
-      assign(params) if params
+    def valid?(values = {})
+      assign(values) unless values.empty?
       validator.valid?(attributes)
     end
 
-    # Sync form attributes to object
-    #
-    # @see Ciesta::Syncer
-    #
-    # @param [Block] block Block wich will be yielded after synfing
-    #
-    # @raise Ciesta::ModelNotPresent
-    # @raise Ciesta::FormNotValid
-    # @return [Boolean]
-    def sync!(&block)
-      raise Ciesta::FormNotValid, "Form is not valid" unless valid?
-
-      syncer.sync!(&block)
-    end
-
     private
-
-    # Sync class for form
-    #
-    # @api private
-    # @return [Ciesta::Syncer]
-    def syncer
-      @syncer ||= Ciesta::Syncer.new(object, fields)
-    end
 
     # Returns form validator
     #
@@ -76,14 +40,6 @@ module Ciesta
     # @see Ciesta::Form.validator
     def validator
       self.class.validator
-    end
-
-    # Returns field list
-    #
-    # @api private
-    # @see Ciesta::Form.fields
-    def fields
-      self.class.fields
     end
   end
 end
