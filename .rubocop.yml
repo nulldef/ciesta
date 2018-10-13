@@ -34,5 +34,8 @@ Style/ModuleFunction:
 Lint/AmbiguousOperator:
   Enabled: false
 
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
 Lint/AmbiguousBlockAssociation:
   Enabled: false

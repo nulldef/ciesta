@@ -10,18 +10,17 @@ Supported Ruby 2.2.0+
 
 You should keep it in mind that here uses [dry-validation](https://github.com/dry-rb/dry-validation) and [dry-types](https://github.com/dry-rb/dry-types) for validation and typification respectively.
 
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Basic case](#basic-case)
-  - [Syncing](#syncing)
-  - [Validation](#validation)
-  - [Advanced field declaration](#advanced-field-declaration)
-    - [Types](#types)
-    - [Default value](#default-value)
-    - [Virtual field](#virtual-field)
+- [Ciesta](#ciesta)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Basic case](#basic-case)
+    - [Validation](#validation)
+    - [Advanced field declaration](#advanced-field-declaration)
+      - [Types](#types)
+      - [Default value](#default-value)
   - [Values mass update](#values-mass-update)
-- [Contributing](#contributing)
-- [License](#license)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Installation
 
@@ -43,12 +42,10 @@ Or install it yourself as:
 ## Usage
 
 ### Basic case
-For example will be used user object with `name` and `age` attributes:
+For example will be used a hash with `name` and `age` attributes:
 
 ```ruby
-User = Struct.new(:name, :age)
-
-user = User.new(nil, nil)
+user = Hash[name: nil, age: nil]
 ```
 
 For setting and syncing new values let's create a form object:
@@ -71,21 +68,7 @@ form = Form.new(user)
 ```ruby
 form.name = "John"
 form.age = "33"
-form.sync!
-
-user.name # => "John"
-user.age  # => 33
 ```
-
-### Syncing
-You can pass a block to sync method to do some stuff with object after syncing.
-
-```ruby
-form.sync! do |user|
-  user.make_happy!
-end
-```
-Both `sync` and `sync!` provide this DSL.
 
 ### Validation
 For validating incoming values you can use `validate` method:
@@ -111,13 +94,10 @@ An attempt to sync with invalid form will raise `Ciesta::FormNotValid` error.
 ```ruby
 form.age = 15
 form.valid? # => false
-form.sync!  # => raises Ciesta::FormNotValid
 form.errors # => { age: ["must be greater than 18"] }
 ...
 form.age = 42
-form.sync!  # => true
-
-user.age    # => 42
+form.valid?  # => true
 ```
 
 ### Advanced field declaration
@@ -159,25 +139,11 @@ field :age, default: -> { default_age }
 form.age # => 42
 ```
 
-### Virtual field
-You can declare field as "virtual". It means that when you call `sync!` it will not raise an error "model attribute is not defined".
-
-```ruby
-User = Struct.new(:name)
-...
-field :age, virtual: true
-...
-form.age = "42"
-form.age # => 42
-form.sync! # => true
-```
-
 ## Values mass update
 There are two methods for form fields mass update: `assign` and `assign!`.
 
 ```ruby
 form.assign!(name: "Neo", age: 30)
-form.sync!
 ...
 user.name # => "Neo"
 user.age  # => 30
@@ -185,13 +151,6 @@ user.age  # => 30
 
 `assign!` method will raise `Ciesta::FieldNotDefined` error if one of the passed attributes is not declared in the form.
 
-## Create a form from hash
-You can create a form from hash with values
-
-```ruby
-form = Form.form_from(name: "Neo")
-form.name # => "Neo"
-```
 
 ## Contributing
 

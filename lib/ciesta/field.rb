@@ -31,7 +31,7 @@ class Ciesta::Field
     @value = type[val]
     @was_set = true
   rescue Dry::Types::ConstraintError
-    raise Ciesta::ViolatesConstraints, "#{val} is not a #{type.name} #{name}"
+    raise Ciesta::ViolatesConstraints, "#{val} is not a valid #{name} (#{type.name})"
   end
 
   # Returns current value
