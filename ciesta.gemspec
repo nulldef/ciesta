@@ -27,16 +27,16 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = ">= 2.2"
+  spec.required_ruby_version = ">= 2.3"
 
   spec.add_dependency "dry-types", "~> 0.13"
   spec.add_dependency "dry-validation", "~> 0.12"
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "coveralls", "~> 0.8"
-  spec.add_development_dependency "pry", "~> 0.11"
-  spec.add_development_dependency "rake", "~> 10.5"
-  spec.add_development_dependency "rspec", "~> 3.8"
-  spec.add_development_dependency "rubocop", "~> 0.59"
-  spec.add_development_dependency "simplecov", "~> 0.16"
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "simplecov"
 end
