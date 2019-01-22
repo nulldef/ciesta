@@ -6,7 +6,7 @@
 
 Create simple form objects
 
-Supported Ruby 2.2.0+
+Supported Ruby 2.3+
 
 You should keep it in mind that here uses [dry-validation](https://github.com/dry-rb/dry-validation) and [dry-types](https://github.com/dry-rb/dry-types) for validation and typification respectively.
 
